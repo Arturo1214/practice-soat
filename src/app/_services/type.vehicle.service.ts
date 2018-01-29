@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import {TypeVehicle} from '../_models';
 
 @Injectable()
 export class TypeVehicleService {
@@ -8,7 +9,7 @@ export class TypeVehicleService {
 
   constructor(private http: HttpClient) {}
 
-  allItems(): Observable<Object> {
-    return this.http.get(this.resourceUrl);
+  allItems(): Observable<Array<TypeVehicle>> {
+    return this.http.get<Array<TypeVehicle>>(this.resourceUrl);
   }
 }

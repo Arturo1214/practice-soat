@@ -2,12 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
 import { AppComponent } from './app.component';
 import {routing} from './app.routing';
 
 import {AuthGuard} from './_guards/index';
-import {AuthenticationService, UserService, CityService, SoatService, TypeUseService, TypeVehicleService} from './_services/index';
+import {
+  AuthenticationService, UserService, CityService, SoatService, TypeUseService, TypeVehicleService,
+  PurchaseTypeService
+} from './_services/index';
 import { LoginComponent } from './login/login.component';
 
 import { HomeComponent } from './home/home.component';
@@ -44,7 +46,8 @@ import { SoatComponent } from './soat/soat.component';
     CityService,
     SoatService,
     TypeUseService,
-    TypeVehicleService
+    TypeVehicleService,
+    PurchaseTypeService
   ],
   bootstrap: [AppComponent]
 })

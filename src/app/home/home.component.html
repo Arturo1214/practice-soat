@@ -1,7 +1,11 @@
-<div class="col-md-12">
-  <h1>Home</h1>
-  <p>Bienvenido {{ user?.firstName }}</p>
-  <p><a [routerLink]="['/login']">Logout</a></p>
+<app-header></app-header>
+<main role="main" class="container">
+  <div class="starter-template">
+    <div class="col-md-12">
 
-  <app-soat></app-soat>
-</div>
+      <h1>Home</h1>
+      <p>Bienvenido {{ user?.firstName }}</p>
+
+    </div>
+  </div>
+</main>

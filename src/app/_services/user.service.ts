@@ -9,7 +9,7 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  find(login: string): Observable<Object> {
-    return this.http.get(`${this.resourceUrl}/${login}`);
+  find(login: string): Observable<User> {
+    return this.http.get<User>(`${this.resourceUrl}/${login}`);
   }
 }

@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
     this.autenticationService.login(this.model.username,
         this.model.password)
         .subscribe(result => {
+          console.log(result);
           const token = result.id_token;
           const username =  this.model.username;
           if (token) {

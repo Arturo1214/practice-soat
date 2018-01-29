@@ -4,3 +4,4 @@ export * from './city.service';
 export * from './soat.service';
 export * from './type.use.service';
 export * from './type.vehicle.service';
+export * from './purchase.type.service';

@@ -1,23 +1,227 @@
-<p>
-  soat works!
-</p>
-<div>
-  Ciudades
-  <ul>
-    <li *ngFor="let city of cities">{{city.id}} {{city.value}}</li>
-  </ul>
-</div>
+<app-header></app-header>
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-6" *ngIf="showViewCreate">
+      <h2>Comprar Soat</h2>
+      <br>
+      <form name="soatCreate" role="form" novalidate (ngSubmit)="save()" #soatCreate="ngForm">
+        <div class="form-group">
+          <label>Nombre o Razon Social</label>
+          <input type="text" class="form-control" name="nameOrSocialReason" #nameOrSocialReasonInput="ngModel"
+            [(ngModel)]="soat.nameOrSocialReason" required maxlength="100">
+          <div *ngIf="nameOrSocialReasonInput.dirty && nameOrSocialReasonInput.invalid">
+            <small class="form-text text-danger"
+              *ngIf="nameOrSocialReasonInput?.errors.required">
+              Nombre o Razon Social requerido.
+            </small>
 
-<div>
-  Tipos de Uso
-  <ul>
-    <li *ngFor="let typeUse of typeUses">{{typeUse.id}} {{typeUse.value}}</li>
-  </ul>
-</div>
+            <small class="form-text text-danger"
+                   *ngIf="nameOrSocialReasonInput?.errors.maxlength">
+              Longitud maxima de 100 caracteres.
+            </small>
+          </div>
+        </div>
 
-<div>
-  Tipos de Vehiculos
-  <ul>
-    <li *ngFor="let typeVehicles of typeVehicles">{{typeVehicles.id}} {{typeVehicles.value}}</li>
-  </ul>
-</div>
+        <div class="form-group">
+          <label>NIT</label>
+          <input type="text" class="form-control" name="nitCustomer" #nitCustomerInput="ngModel"
+                 [(ngModel)]="soat.nitCustomer" required maxlength="15">
+          <div *ngIf="nitCustomerInput.dirty && nitCustomerInput.invalid">
+            <small class="form-text text-danger"
+                   *ngIf="nitCustomerInput?.errors.required">
+              NIT requerido.
+            </small>
+
+            <small class="form-text text-danger"
+                   *ngIf="nitCustomerInput?.errors.maxlength">
+              Longitud maxima de 15 caracteres.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" name="email" #emailInput="ngModel"
+                 [(ngModel)]="soat.email" required maxlength="50" email>
+
+          <div *ngIf="emailInput.dirty && emailInput.invalid">
+            <small class="form-text text-danger"
+                   *ngIf="emailInput?.errors.required">
+              Email requerido.
+            </small>
+
+            <small class="form-text text-danger"
+                   *ngIf="emailInput?.errors.maxlength">
+              Longitud maxima de 50 caracteres.
+            </small>
+
+            <small class="form-text text-danger"
+                   *ngIf="emailInput?.errors.email">
+              Email invalido.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Placa</label>
+          <input type="text" class="form-control" name="licensePlate" #licensePlateInput="ngModel"
+                 [(ngModel)]="soat.licensePlate" required maxlength="15">
+          <div *ngIf="licensePlateInput.dirty && licensePlateInput.invalid">
+            <small class="form-text text-danger"
+                   *ngIf="licensePlateInput?.errors.required">
+              Placa requerido.
+            </small>
+
+            <small class="form-text text-danger"
+                   *ngIf="licensePlateInput?.errors.maxlength">
+              Longitud maxima de 15 caracteres.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Año</label>
+          <input type="number" class="form-control" name="year" #yearInput="ngModel"
+                 [(ngModel)]="soat.year" required maxlength="15">
+          <div *ngIf="yearInput.dirty && yearInput.invalid">
+            <small class="form-text text-danger"
+                   *ngIf="yearInput?.errors.required">
+              Placa requerido.
+            </small>
+
+            <small class="form-text text-danger"
+                   *ngIf="yearInput?.errors.maxlength">
+              Longitud maxima de 15 caracteres.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Monto Total</label>
+          <input type="number" class="form-control" name="totalAmount" #totalAmountInput="ngModel"
+                 [(ngModel)]="soat.totalAmount" required>
+          <div *ngIf="totalAmountInput.dirty && totalAmountInput.invalid">
+            <small class="form-text text-danger"
+                   *ngIf="totalAmountInput?.errors.required">
+              Placa requerido.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de Compra</label>
+          <select class="form-control" name="purchaseType" #purchaseTypeInput="ngModel"
+            [(ngModel)]="soat.purchaseType.id" required>
+            <option *ngFor="let purchaseType of purchaseTypes" [value]="purchaseType.id">{{purchaseType.value}}</option>
+          </select>
+          <div *ngIf="purchaseTypeInput.dirty && purchaseTypeInput.invalid">
+            <small class="form-text text-danger"
+                   *ngIf="purchaseTypeInput?.errors.required">
+              Tipo de Compra requerido.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de Vehiculo</label>
+          <select class="form-control" name="typeVehicle" #typeVehicleInput="ngModel"
+                  [(ngModel)]="soat.typeVehicle.id" required>
+            <option *ngFor="let typeVehicle of typeVehicles" [value]="typeVehicle.id">{{typeVehicle.value}}</option>
+          </select>
+          <div *ngIf="typeVehicleInput.dirty && typeVehicleInput.invalid">
+            <small class="form-text text-danger"
+                   *ngIf="typeVehicleInput?.errors.required">
+              Tipo de Vehiculo requerido.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de Uso</label>
+          <select class="form-control" name="typeUse" #typeUseInput="ngModel"
+                  [(ngModel)]="soat.typeUse.id" required>
+            <option *ngFor="let typeUse of typeUses" [value]="typeUse.id">{{typeUse.value}}</option>
+          </select>
+          <div *ngIf="typeUseInput.dirty && typeUseInput.invalid">
+            <small class="form-text text-danger"
+                   *ngIf="typeUseInput?.errors.required">
+              Tipo de Uso requerido.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Ciudad</label>
+          <select class="form-control" name="city" #cityInput="ngModel"
+                  [(ngModel)]="soat.city.id" required>
+            <option *ngFor="let city of cities" [value]="city.id">{{city.value}}</option>
+          </select>
+          <div *ngIf="cityInput.dirty && cityInput.invalid">
+            <small class="form-text text-danger"
+                   *ngIf="cityInput?.errors.required">
+              Tipo de Uso requerido.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn btn-secondary" (click)="clear()">
+            <span>Cancelar</span>
+          </button>
+
+          <button type="submit" [disabled]="soatCreate.form.invalid" class="btn btn-primary">
+            <span>Guardar</span>
+          </button>
+        </div>
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+      </form>
+    </div>
+
+    <div class="col-md-12" *ngIf="!showViewCreate">
+      <h2>Mis Soats </h2>
+      <button type="button" class="btn btn-primary" (click)="newSoat()">
+        <span>Comprar Soat</span>
+      </button>
+      <br/>
+      <br/>
+      <div class="table-responsive" *ngIf="soats">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>NOMBRE O RAZON SOCIAL</th>
+              <th>NIT</th>
+              <th>EMAIL</th>
+              <th>NUMERO PLACA</th>
+              <th>AÑO</th>
+              <th>TIPO DE COMPTRA</th>
+              <th>TIPO DE VEHICULO</th>
+              <th>TIPO DE USO</th>
+              <th>CIUDAD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let soat of soats; trackBy: trackIdentity">
+              <td>{{soat.id}}</td>
+              <td>{{ soat.nameOrSocialReason }}</td>
+              <td>{{ soat.nitCustomer }}</td>
+              <td>{{ soat.email }}</td>
+              <td>{{ soat.licensePlate }}</td>
+              <td>{{ soat.year }}</td>
+              <td>{{ soat.purchaseType.value }}</td>
+              <td>{{ soat.typeVehicle.value }}</td>
+              <td>{{ soat.typeUse.value }}</td>
+              <td>{{ soat.city.value }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
+
+

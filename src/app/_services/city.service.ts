@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import {City} from '../_models';
 
 @Injectable()
 export class CityService {
@@ -8,7 +9,7 @@ export class CityService {
 
   constructor(private http: HttpClient) {}
 
-  allItems(): Observable<Object> {
-    return this.http.get(this.resourceUrl);
+  allItems(): Observable<Array<City>> {
+    return this.http.get<Array<City>>(this.resourceUrl);
   }
 }

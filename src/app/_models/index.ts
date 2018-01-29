@@ -4,3 +4,4 @@ export * from './purchase.type';
 export * from './soat';
 export * from './type.use';
 export * from './type.vehicle';
+export * from './login';
