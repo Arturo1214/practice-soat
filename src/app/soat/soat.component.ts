@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {City, PurchaseType, Soat, TypeUse, TypeVehicle, User} from '../_models/index';
+import { saveAs } from 'file-saver/FileSaver';
 import {CityService, SoatService, TypeUseService, TypeVehicleService, PurchaseTypeService, UserService} from '../_services/index';
+import {HttpParams} from '@angular/common/http';
 
 @Component({
   selector: 'app-soat',
@@ -8,6 +10,7 @@ import {CityService, SoatService, TypeUseService, TypeVehicleService, PurchaseTy
   styleUrls: ['./soat.component.css']
 })
 export class SoatComponent implements OnInit {
+  public filter: string;
   public showViewCreate: Boolean;
   public error: string;
   public user: User;
@@ -19,6 +22,12 @@ export class SoatComponent implements OnInit {
   public typeVehicles: Array<TypeVehicle>;
   public purchaseTypes: Array<PurchaseType>;
 
+  public page;
+  public collectionSize;
+  public pageSize: any;
+
+
+
   constructor(private soatService: SoatService,
               private cityService: CityService,
               private typeUseService: TypeUseService,
@@ -29,18 +38,18 @@ export class SoatComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.page = 1;
+    this.collectionSize = 0;
     this.soat = new Soat();
     this.error = '';
     this.showViewCreate = false;
-    this.soatService.allItems().subscribe(_soats => {
-      this.soats = _soats;
-      console.log('sotas');
-      console.log(this.soats);
-    });
+    this.pageSize = 2;
+    this.filter = '';
 
     this.userService.find(this.currentUser.username)
       .subscribe((_user) => {
         this.user = _user;
+        this.loadSoat();
     });
 
     this.cityService.allItems().subscribe(_cities => {
@@ -58,16 +67,11 @@ export class SoatComponent implements OnInit {
     this.purchaseTypeService.allItems().subscribe(_purchaseTypes => {
       this.purchaseTypes = _purchaseTypes;
     });
+
+
   }
 
-  loadSoat() {
-    this.soats = new Array<Soat>();
-    this.soatService.allItems().subscribe(_soats => {
-      this.soats = _soats;
-      console.log('sotas');
-      console.log(this.soats);
-    });
-  }
+
 
   save() {
     console.log(this.soat);
@@ -111,4 +115,65 @@ export class SoatComponent implements OnInit {
     return item.id;
   }
 
+  downloadVoucher(id: any) {
+    this.soatService.voucher(id)
+      .subscribe(result => {
+        saveAs(result, `voucher${id}.pdf`);
+      });
+  }
+
+  loadPage(page: number) {
+    this.page = page;
+    if (this.filter) {
+      this.filterMaster();
+    } else {
+      this.loadSoat();
+    }
+  }
+
+  loadSoat() {
+    this.soats = new Array<Soat>();
+    const params = new HttpParams()
+      .set('userId.equals', `${this.user.id}`)
+      .set('page', `${this.page - 1}`)
+      .set('size', `${this.pageSize}`);
+    this.soatService.allItems(params).subscribe(_soats => {
+      this.collectionSize = _soats.headers.get('X-Total-Count');
+      this.soats = _soats.body;
+    });
+  }
+
+  actionFilter() {
+    console.log(this.filter);
+    this.page = 1;
+    this.filterMaster();
+  }
+
+  actionFilterClear() {
+    this.filter = '';
+    this.actionFilter();
+  }
+
+  private filterMaster() {
+    let params: any;
+    if (this.filter) {
+      console.log('filter con valor');
+      params = new HttpParams()
+        .set('userId.equals', `${this.user.id}`)
+        .set('page', `${this.page - 1}`)
+        .set('size', `${this.pageSize}`)
+        .set('licensePlate.contains', `${this.filter}`);
+    } else {
+      params = new HttpParams()
+        .set('userId.equals', `${this.user.id}`)
+        .set('page', `${this.page - 1}`)
+        .set('size', `${this.pageSize}`);
+      console.log('filter vacio');
+    }
+    console.log(params);
+    this.soatService.allItems(params).subscribe(_soats => {
+      this.collectionSize = _soats.headers.get('X-Total-Count');
+      this.soats = _soats.body;
+    });
+  }
 }

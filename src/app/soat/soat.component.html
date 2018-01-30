@@ -185,7 +185,21 @@
       </button>
       <br/>
       <br/>
-      <div class="table-responsive" *ngIf="soats">
+      <form name="filterForm" (ngSubmit)="actionFilter()">
+        <div class="row">
+          <div class="col-md-2">
+            <input placeholder="Ingrese Placa" name="filter" [(ngModel)]="filter" >
+          </div>
+          <div class="col-md-1">
+            <button type="submit"><span>Buscar</span></button>
+          </div>
+          <div class="col-md-1">
+            <button type="button" (click)="actionFilterClear()" ><span>Limpiar</span></button>
+          </div>
+        </div>
+      </form>
+      <br/>
+      <div class="table-responsive" *ngIf="soats?.length > 0">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -199,6 +213,7 @@
               <th>TIPO DE VEHICULO</th>
               <th>TIPO DE USO</th>
               <th>CIUDAD</th>
+              <th>VOUCHER</th>
             </tr>
           </thead>
           <tbody>
@@ -213,9 +228,26 @@
               <td>{{ soat.typeVehicle.value }}</td>
               <td>{{ soat.typeUse.value }}</td>
               <td>{{ soat.city.value }}</td>
+              <td class="text-right">
+                <div class="btn-group">
+                  <button type="button"
+                          class="btn btn-primary btn-sm"
+                          (click)="downloadVoucher(soat.id)">
+                    <span class="fa fa-download "></span>
+                  </button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
+      </div>
+      <div *ngIf="soats?.length <= 0">
+        <p>No existen Registros.....</p>
+      </div>
+      <div *ngIf="soats?.length > 0">
+        <ngb-pagination [collectionSize]="collectionSize"
+                        [(page)]="page" [pageSize]="pageSize" [rotate]="true"
+                        [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
       </div>
     </div>
   </div>

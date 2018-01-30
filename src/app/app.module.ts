@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 
 import {FormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -17,6 +16,8 @@ import { HeaderComponent } from './header/header.component';
 import {AuthInterceptor} from './_interceptor/index';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { SoatComponent } from './soat/soat.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgModule} from '@angular/core';
 
 
 
@@ -33,7 +34,8 @@ import { SoatComponent } from './soat/soat.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    routing
+    routing,
+    NgbModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,

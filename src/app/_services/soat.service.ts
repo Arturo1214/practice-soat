@@ -2,6 +2,8 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Soat} from '../_models';
+import {HttpParams} from '@angular/common/http/src/params';
+import {HttpHeaders} from '@angular/common/http/src/headers';
 
 @Injectable()
 export class SoatService {
@@ -9,8 +11,10 @@ export class SoatService {
 
   constructor(private http: HttpClient) {}
 
-  allItems(): Observable<Array<Soat>> {
-    return this.http.get<Array<Soat>>(this.resourceUrl);
+  allItems(options?: any): Observable<any> {
+    return this.http.get(this.resourceUrl, {
+      params: options,
+      observe: 'response'});
   }
 
   create(soat: Soat): Observable<Soat> {
@@ -20,4 +24,11 @@ export class SoatService {
   update(soat: Soat): Observable<Soat> {
     return this.http.put<Soat>(`${this.resourceUrl}/${soat.id}`, soat);
   }
+
+  voucher(id: any): Observable<Blob> {
+    return this.http.get(`${this.resourceUrl}/${id}/vouchers`, {
+      responseType: "blob"
+    });
+  }
+
 }
